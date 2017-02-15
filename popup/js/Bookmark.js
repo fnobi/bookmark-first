@@ -70,7 +70,7 @@ class Bookmark {
     }
 
     titleMatch (keyword) {
-        return this.title && this.title.indexOf(keyword) >= 0;
+        return this.title && (new RegExp(keyword, 'i').test(this.title));
     }
 
     urlMatch (keyword) {
