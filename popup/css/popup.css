@@ -1,7 +1,43 @@
+.wrapper {
+    min-width: 300px;
+}
+
+.increment {
+    margin-bottom: 1em;
+}
+
+.increment__input {
+    width: 100%;
+    font-size: 150%;
+}
+
+.bookmark {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+input, strong, ul, li, a {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+}
+
+strong {
+    margin-bottom: 0.5em;
+    font-size: 50%;
+}
+
 li[data-match="false"] {
     display: none;
 }
 
-li[data-match="true"] {
-    color: #000;
+a {
+    text-decoration: none;
+    color: inherit;
+    padding: 0.5em;
+    margin: 1px 0px;
+    background-color: #eee;
+}
+a:focus {
+    background-color: #eef;
 }
