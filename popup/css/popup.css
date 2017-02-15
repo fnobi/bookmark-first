@@ -1,19 +1,27 @@
 .wrapper {
     min-width: 300px;
+    color: #444;
 }
 
 .increment {
-    margin-bottom: 1em;
 }
 
 .increment__input {
     width: 100%;
-    font-size: 150%;
+    font-size: 200%;
+    outline: none;
+    border: none;
 }
 
 .bookmark {
+    border-top: solid 1px #ccc;
+    margin-top: 1em;
+    padding-top: 1em;
     max-height: 300px;
     overflow-y: scroll;
+}
+.bookmark[data-empty="true"] {
+    display: none;
 }
 
 input, strong, ul, li, a {
@@ -37,7 +45,10 @@ a {
     padding: 0.5em;
     margin: 1px 0px;
     background-color: #eee;
+    border-left: solid 0.5em #ccc;
+    outline: none;
 }
 a:focus {
     background-color: #eef;
+    border-color: #ccf;
 }

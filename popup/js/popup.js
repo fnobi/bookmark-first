@@ -11,7 +11,8 @@ function init () {
 
 function initKeyEvent () {
     incrementDom.addEventListener('keyup', () => {
-        rootBookmark.match(incrementDom.value);
+        const globalMatch = rootBookmark.match(incrementDom.value);
+        bookmarkRootDom.setAttribute('data-empty', !globalMatch);
     });
 }
 
