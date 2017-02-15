@@ -65,8 +65,6 @@ class Bookmark {
 
         const allMatch = parentMatch || selfMatch || childrenMatch;
         this.itemDom.setAttribute('data-match', allMatch);
-
-        console.log(this.title, parentMatch, selfMatch, childrenMatch);
         
         return allMatch;
     }
