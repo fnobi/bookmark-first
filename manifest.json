@@ -1,0 +1,12 @@
+{
+    "name": "bookmark-first",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "bookmark-first",
+    "browser_action": {
+        "default_popup": "popup/index.html"
+    },
+    "permissions": [
+        "bookmarks"
+    ]
+}
