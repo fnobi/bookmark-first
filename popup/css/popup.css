@@ -48,6 +48,7 @@ a {
     border-left: solid 0.5em #ccc;
     outline: none;
 }
+a[data-active="true"],
 a:focus {
     background-color: #eef;
     border-color: #ccf;
