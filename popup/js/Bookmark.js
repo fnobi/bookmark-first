@@ -48,9 +48,9 @@ class Bookmark {
     }
 
     match (keyword, parentMatch = false) {
-        const selfMatch = (keyword && this.title)
-                  ? (this.title.indexOf(keyword) >= 0)
-                  : false;
+        const selfMatch = keyword && (
+            this.titleMatch(keyword) || this.urlMatch(keyword)
+        );
         
         let childrenMatch = false;
         if (this.children) {
@@ -69,6 +69,14 @@ class Bookmark {
         console.log(this.title, parentMatch, selfMatch, childrenMatch);
         
         return allMatch;
+    }
+
+    titleMatch (keyword) {
+        return this.title && this.title.indexOf(keyword) >= 0;
+    }
+
+    urlMatch (keyword) {
+        return this.url && this.url.indexOf(keyword) >= 0;
     }
 }
 
