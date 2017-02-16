@@ -50,16 +50,19 @@ class Bookmark {
         this.itemDom = itemDom;
     }
 
-    match (keyword, parentMatch = false) {
-        const selfMatch = keyword && (
-            this.titleMatch(keyword) || this.urlMatch(keyword)
-        );
+    match (keywordList, parentMatch = false) {
+        let selfMatch = !!keywordList.length;
+        keywordList.forEach((keyword) => {
+            selfMatch = selfMatch && keyword && (
+                this.titleMatch(keyword) || this.urlMatch(keyword)
+            );
+        });
         
         let childrenMatch = false;
         if (this.children) {
             this.children.forEach((bookmark) => {
                 const childMatch = bookmark.match(
-                    keyword,
+                    keywordList,
                     parentMatch || selfMatch
                 );
                 childrenMatch = childrenMatch || childMatch;

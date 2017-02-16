@@ -21,7 +21,11 @@ function initIncrementEvent () {
             isCursorKey = false;
             return;
         }
-        const globalMatch = rootBookmark.match(incrementDom.value);
+
+        const keywordList = incrementDom.value
+                  ? trim(incrementDom.value).split(/ +/g)
+                  : [];
+        const globalMatch = rootBookmark.match(keywordList);
         bookmarkRootDom.setAttribute('data-empty', !globalMatch);
         setActive(0);
     });
@@ -92,6 +96,10 @@ function setActive (index) {
     index = Math.min(index, matching.length - 1);
     matching[index].setAttribute('data-active', true);
     activeIndex = index;
+}
+
+function trim (string = '') {
+    return string.replace(/^ +/, '').replace(/ +$/, '');
 }
 
 init();
