@@ -1,5 +1,5 @@
 .wrapper {
-    min-width: 300px;
+    width: 300px;
     color: #444;
 }
 
@@ -52,4 +52,13 @@ a[data-active="true"],
 a:focus {
     background-color: #eef;
     border-color: #ccf;
+}
+
+a span {
+    display: block;
+    font-size: 50%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    opacity: 0.8;
 }

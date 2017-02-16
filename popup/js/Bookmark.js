@@ -42,6 +42,9 @@ class Bookmark {
             const anchorDom = document.createElement('a');
             anchorDom.innerHTML = this.title;
             anchorDom.href = this.url;
+            const urlSpanDom = document.createElement('span');
+            urlSpanDom.innerHTML = this.url;
+            anchorDom.appendChild(urlSpanDom);
             itemDom.appendChild(anchorDom);
         }
         this.itemDom = itemDom;
