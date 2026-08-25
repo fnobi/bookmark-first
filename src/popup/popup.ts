@@ -2,8 +2,16 @@ const KEYCODE_ENTER = 13;
 const KEYCODE_UP = 38;
 const KEYCODE_DOWN = 40;
 
-const incrementDom = document.querySelector<HTMLInputElement>('.js-increment')!;
-const bookmarkRootDom = document.querySelector<HTMLUListElement>('.js-bookmark-root')!;
+function queryRequired<T extends Element> (selector: string): T {
+    const el = document.querySelector<T>(selector);
+    if (!el) {
+        throw new Error(`element not found: ${selector}`);
+    }
+    return el;
+}
+
+const incrementDom = queryRequired<HTMLInputElement>('.js-increment');
+const bookmarkRootDom = queryRequired<HTMLUListElement>('.js-bookmark-root');
 
 let rootBookmark: Bookmark | null = null;
 let activeIndex = 0;
@@ -23,10 +31,14 @@ function initIncrementEvent () {
             return;
         }
 
+        if (!rootBookmark) {
+            return;
+        }
+
         const keywordList = incrementDom.value
                   ? trim(incrementDom.value).split(/ +/g)
                   : [];
-        const globalMatch = rootBookmark!.match(keywordList);
+        const globalMatch = rootBookmark.match(keywordList);
         bookmarkRootDom.setAttribute('data-empty', String(!globalMatch));
         setActive(0);
     });
