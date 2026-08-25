@@ -1,8 +1,10 @@
+import { Bookmark } from './Bookmark.js';
+
 const KEYCODE_ENTER = 13;
 const KEYCODE_UP = 38;
 const KEYCODE_DOWN = 40;
 
-function queryRequired<T extends Element> (selector: string): T {
+function queryRequired<T extends Element>(selector: string): T {
     const el = document.querySelector<T>(selector);
     if (!el) {
         throw new Error(`element not found: ${selector}`);
@@ -17,14 +19,14 @@ let rootBookmark: Bookmark | null = null;
 let activeIndex = 0;
 let isCursorKey = false;
 
-function init () {
+function init() {
     initIncrementEvent();
     initAnchorClickEvent();
     loadBookmark();
     incrementDom.focus();
 }
 
-function initIncrementEvent () {
+function initIncrementEvent() {
     incrementDom.addEventListener('keyup', () => {
         if (isCursorKey) {
             isCursorKey = false;
@@ -36,8 +38,8 @@ function initIncrementEvent () {
         }
 
         const keywordList = incrementDom.value
-                  ? trim(incrementDom.value).split(/ +/g)
-                  : [];
+            ? trim(incrementDom.value).split(/ +/g)
+            : [];
         const globalMatch = rootBookmark.match(keywordList);
         bookmarkRootDom.setAttribute('data-empty', String(!globalMatch));
         setActive(0);
@@ -45,21 +47,23 @@ function initIncrementEvent () {
 
     document.addEventListener('keydown', (e) => {
         switch (e.keyCode) {
-        case KEYCODE_ENTER: {
-            const activeAnchor = document.querySelector<HTMLAnchorElement>('a[data-active="true"]');
-            if (activeAnchor && activeAnchor.href) {
-                window.open(activeAnchor.href);
+            case KEYCODE_ENTER: {
+                const activeAnchor = document.querySelector<HTMLAnchorElement>(
+                    'a[data-active="true"]',
+                );
+                if (activeAnchor && activeAnchor.href) {
+                    window.open(activeAnchor.href);
+                }
+                break;
             }
-            break;
-        }
-        case KEYCODE_UP:
-            setActive(activeIndex - 1);
-            isCursorKey = true;
-            break;
-        case KEYCODE_DOWN:
-            setActive(activeIndex + 1);
-            isCursorKey = true;
-            break;
+            case KEYCODE_UP:
+                setActive(activeIndex - 1);
+                isCursorKey = true;
+                break;
+            case KEYCODE_DOWN:
+                setActive(activeIndex + 1);
+                isCursorKey = true;
+                break;
         }
     });
 
@@ -72,7 +76,7 @@ function initIncrementEvent () {
     });
 }
 
-function initAnchorClickEvent () {
+function initAnchorClickEvent() {
     bookmarkRootDom.addEventListener('click', (e) => {
         const el = e.target as HTMLElement;
         if (/^a$/i.test(el.tagName) && (el as HTMLAnchorElement).href) {
@@ -81,27 +85,31 @@ function initAnchorClickEvent () {
     });
 }
 
-function loadBookmark () {
+function loadBookmark() {
     bookmarkRootDom.innerHTML = '';
 
     chrome.bookmarks.getTree((results) => {
         rootBookmark = new Bookmark({
-            children: results
+            children: results,
         });
 
         bookmarkRootDom.appendChild(rootBookmark.itemDom);
     });
 }
 
-function clearActive () {
-    document.querySelectorAll<HTMLAnchorElement>('a[data-active="true"]').forEach((el) => {
-        el.setAttribute('data-active', String(false));
-    });
+function clearActive() {
+    document
+        .querySelectorAll<HTMLAnchorElement>('a[data-active="true"]')
+        .forEach((el) => {
+            el.setAttribute('data-active', String(false));
+        });
 }
 
-function setActive (index: number) {
+function setActive(index: number) {
     clearActive();
-    const matching = document.querySelectorAll<HTMLAnchorElement>('li[data-match="true"] > a');
+    const matching = document.querySelectorAll<HTMLAnchorElement>(
+        'li[data-match="true"] > a',
+    );
     if (!matching.length) {
         return;
     }
@@ -112,7 +120,7 @@ function setActive (index: number) {
     activeIndex = index;
 }
 
-function trim (string = ''): string {
+function trim(string = ''): string {
     return string.replace(/^ +/, '').replace(/ +$/, '');
 }
 
