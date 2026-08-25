@@ -1,0 +1,14 @@
+{
+    "name": "bookmark-first",
+    "version": "0.3.0",
+    "private": true,
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc --watch",
+        "typecheck": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@types/chrome": "^0.0.280",
+        "typescript": "^5.6.3"
+    }
+}

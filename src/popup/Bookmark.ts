@@ -1,18 +1,29 @@
+interface BookmarkOptions {
+    title?: string;
+    url?: string;
+    children?: BookmarkOptions[];
+}
+
 class Bookmark {
-    constructor (opts = {}) {
+    title?: string;
+    url?: string;
+    children?: Bookmark[];
+    itemDom!: HTMLLIElement;
+
+    constructor (opts: BookmarkOptions = {}) {
         this.title = opts.title;
         this.url = opts.url;
-        
+
         this.loadChildren(opts.children);
         this.initDom();
     }
 
-    loadChildren (childrenOpts) {
+    loadChildren (childrenOpts?: BookmarkOptions[]) {
         if (!childrenOpts) {
             return;
         }
 
-        const children = [];
+        const children: Bookmark[] = [];
         childrenOpts.forEach((opts) => {
             children.push(new Bookmark(opts));
         });
@@ -21,43 +32,43 @@ class Bookmark {
 
     initDom () {
         const itemDom = document.createElement('li');
-        itemDom.setAttribute('data-match', false);
-        
+        itemDom.setAttribute('data-match', String(false));
+
         if (this.children) {
             if (this.title) {
                 const titleDom = document.createElement('strong');
                 titleDom.innerHTML = this.title;
                 itemDom.appendChild(titleDom);
             }
-            
+
             const listDom = document.createElement('ul');
             const fragment = document.createDocumentFragment();
             this.children.forEach((bookmark) => {
                 fragment.append(bookmark.itemDom);
             });
-            
+
             listDom.appendChild(fragment);
             itemDom.appendChild(listDom);
         } else {
             const anchorDom = document.createElement('a');
-            anchorDom.innerHTML = this.title;
-            anchorDom.href = this.url;
+            anchorDom.innerHTML = this.title!;
+            anchorDom.href = this.url!;
             const urlFooterDom = document.createElement('footer');
-            urlFooterDom.innerHTML = this.url;
+            urlFooterDom.innerHTML = this.url!;
             anchorDom.appendChild(urlFooterDom);
             itemDom.appendChild(anchorDom);
         }
         this.itemDom = itemDom;
     }
 
-    match (keywordList, parentMatch = false) {
+    match (keywordList: string[], parentMatch = false): boolean {
         let selfMatch = !!keywordList.length;
         keywordList.forEach((keyword) => {
-            selfMatch = selfMatch && keyword && (
+            selfMatch = selfMatch && !!keyword && (
                 this.titleMatch(keyword) || this.urlMatch(keyword)
             );
         });
-        
+
         let childrenMatch = false;
         if (this.children) {
             this.children.forEach((bookmark) => {
@@ -70,26 +81,16 @@ class Bookmark {
         }
 
         const allMatch = parentMatch || selfMatch || childrenMatch;
-        this.itemDom.setAttribute('data-match', allMatch);
-        
+        this.itemDom.setAttribute('data-match', String(allMatch));
+
         return allMatch;
     }
 
-    titleMatch (keyword) {
-        return this.title && (new RegExp(keyword, 'i').test(this.title));
+    titleMatch (keyword: string): boolean {
+        return !!this.title && (new RegExp(keyword, 'i').test(this.title));
     }
 
-    urlMatch (keyword) {
-        return this.url && this.url.indexOf(keyword) >= 0;
+    urlMatch (keyword: string): boolean {
+        return !!this.url && this.url.indexOf(keyword) >= 0;
     }
 }
-
-
-
-
-
-
-
-
-
-
