@@ -49,3 +49,5 @@ Chrome Web Store側のAPIを使うため、以下をリポジトリのSecretsに
 - `CHROME_REFRESH_TOKEN`: 上記クライアントで取得したrefresh token(`https://www.googleapis.com/auth/chromewebstore` スコープ)
 
 APIでの公開リクエスト自体は成功しても、実際の公開までにChromeストア側の審査が挟まる場合があります。
+
+`CHROME_CLIENT_ID` / `CHROME_CLIENT_SECRET` の元になるGoogle Cloud側(API有効化・OAuth同意画面・OAuthクライアント)のセットアップは [`terraform/`](./terraform) で管理しています。詳しい手順(refresh tokenの取得含む)は [`terraform/README.md`](./terraform/README.md) を参照してください。
