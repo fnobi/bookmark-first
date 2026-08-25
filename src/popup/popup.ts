@@ -1,9 +1,5 @@
 import { Bookmark } from './Bookmark.js';
 
-const KEYCODE_ENTER = 13;
-const KEYCODE_UP = 38;
-const KEYCODE_DOWN = 40;
-
 function queryRequired<T extends Element>(selector: string): T {
     const el = document.querySelector<T>(selector);
     if (!el) {
@@ -46,8 +42,8 @@ function initIncrementEvent() {
     });
 
     document.addEventListener('keydown', (e) => {
-        switch (e.keyCode) {
-            case KEYCODE_ENTER: {
+        switch (e.key) {
+            case 'Enter': {
                 const activeAnchor = document.querySelector<HTMLAnchorElement>(
                     'a[data-active="true"]',
                 );
@@ -56,11 +52,11 @@ function initIncrementEvent() {
                 }
                 break;
             }
-            case KEYCODE_UP:
+            case 'ArrowUp':
                 setActive(activeIndex - 1);
                 isCursorKey = true;
                 break;
-            case KEYCODE_DOWN:
+            case 'ArrowDown':
                 setActive(activeIndex + 1);
                 isCursorKey = true;
                 break;
@@ -86,7 +82,7 @@ function initAnchorClickEvent() {
 }
 
 function loadBookmark() {
-    bookmarkRootDom.innerHTML = '';
+    bookmarkRootDom.replaceChildren();
 
     chrome.bookmarks.getTree((results) => {
         rootBookmark = new Bookmark({
