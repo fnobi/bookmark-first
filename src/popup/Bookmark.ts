@@ -37,7 +37,7 @@ export class Bookmark {
         if (this.children) {
             if (this.title) {
                 const titleDom = document.createElement('strong');
-                titleDom.innerHTML = this.title;
+                titleDom.textContent = this.title;
                 itemDom.appendChild(titleDom);
             }
 
@@ -51,10 +51,10 @@ export class Bookmark {
             itemDom.appendChild(listDom);
         } else {
             const anchorDom = document.createElement('a');
-            anchorDom.innerHTML = this.title!;
+            anchorDom.textContent = this.title!;
             anchorDom.href = this.url!;
             const urlFooterDom = document.createElement('footer');
-            urlFooterDom.innerHTML = this.url!;
+            urlFooterDom.textContent = this.url!;
             anchorDom.appendChild(urlFooterDom);
             itemDom.appendChild(anchorDom);
         }

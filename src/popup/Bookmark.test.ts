@@ -46,6 +46,20 @@ describe('Bookmark#match (leaf node)', () => {
     });
 });
 
+describe('Bookmark#initDom', () => {
+    it('renders a title containing HTML-like text as plain text, not markup', () => {
+        const bookmark = new Bookmark({
+            title: '<img src=x onerror=alert(1)>',
+            url: 'https://example.com',
+        });
+        const anchor = bookmark.itemDom.querySelector('a');
+        expect(anchor?.firstChild?.textContent).toBe(
+            '<img src=x onerror=alert(1)>',
+        );
+        expect(anchor?.querySelector('img')).toBeNull();
+    });
+});
+
 describe('Bookmark#match (folder node)', () => {
     it('matches a folder whose child matches, even if the folder itself does not', () => {
         const bookmark = new Bookmark({
