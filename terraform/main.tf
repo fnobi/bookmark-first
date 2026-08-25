@@ -5,29 +5,47 @@ resource "google_project_service" "chromewebstore" {
   disable_on_destroy = false
 }
 
-resource "google_project_service" "iap" {
+resource "google_project_service" "iam" {
   project            = var.project_id
-  service            = "iap.googleapis.com"
+  service            = "iam.googleapis.com"
   disable_on_destroy = false
 }
 
-# OAuth同意画面(ブランド)。1プロジェクトにつき1つのみ作成可能。
-# 既にOAuth同意画面を設定済みのプロジェクトを使う場合は、この resource ではなく
-# `terraform import google_iap_brand.default <name>` で既存のものを取り込むこと。
-resource "google_iap_brand" "default" {
-  project           = var.project_id
-  support_email     = var.support_email
-  application_title = var.application_title
+# Chrome Web Store Publish API呼び出し用のOAuth 2.0クライアント。
+#
+# 旧来の google_iap_brand / google_iap_client は、IAP OAuth Admin APIの廃止
+# (2026-01-19に機能停止、2026-03-19にAPI自体を完全停止)に伴い使用できないため、
+# 後継の IAM OAuth Client API ベースのリソースに置き換えている。
+resource "google_iam_oauth_client" "chrome_webstore" {
+  project = var.project_id
 
-  depends_on = [google_project_service.iap]
+  oauth_client_id = "bookmark-first-webstore"
+  location        = "global"
+  display_name    = "bookmark-first chrome webstore release"
+  description     = "Chrome Web Store Publish API用のOAuthクライアント"
+
+  client_type = "CONFIDENTIAL_CLIENT"
+  allowed_grant_types = [
+    "AUTHORIZATION_CODE_GRANT",
+    "REFRESH_TOKEN_GRANT",
+  ]
+  allowed_scopes = [
+    "https://www.googleapis.com/auth/chromewebstore",
+  ]
+  # OAuth 2.0 Playground経由でrefresh tokenを取得するために必要(terraform/README.md参照)
+  allowed_redirect_uris = [
+    "https://developers.google.com/oauthplayground",
+  ]
+
+  depends_on = [google_project_service.iam]
 }
 
-# Chrome Web Store Publish API呼び出し用のOAuth 2.0クライアント。
-# 本来はIAP(Identity-Aware Proxy)用のリソースだが、実体は汎用のOAuth 2.0
-# クライアントID/シークレットが払い出されるため、他のGoogle APIのOAuth認可にも利用できる。
-# 発行されたclient_id/client_secretを使ってrefresh tokenを取得する手順は
-# terraform/README.md を参照。
-resource "google_iap_client" "chrome_webstore" {
-  display_name = "bookmark-first chrome webstore release"
-  brand        = google_iap_brand.default.name
+resource "google_iam_oauth_client_credential" "chrome_webstore" {
+  project = var.project_id
+
+  oauthclient = google_iam_oauth_client.chrome_webstore.oauth_client_id
+  location    = google_iam_oauth_client.chrome_webstore.location
+
+  oauth_client_credential_id = "default"
+  display_name               = "bookmark-first release credential"
 }
