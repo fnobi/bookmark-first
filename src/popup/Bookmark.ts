@@ -4,13 +4,13 @@ interface BookmarkOptions {
     children?: BookmarkOptions[];
 }
 
-class Bookmark {
+export class Bookmark {
     title?: string;
     url?: string;
     children?: Bookmark[];
     itemDom!: HTMLLIElement;
 
-    constructor (opts: BookmarkOptions = {}) {
+    constructor(opts: BookmarkOptions = {}) {
         this.title = opts.title;
         this.url = opts.url;
 
@@ -18,7 +18,7 @@ class Bookmark {
         this.initDom();
     }
 
-    loadChildren (childrenOpts?: BookmarkOptions[]) {
+    loadChildren(childrenOpts?: BookmarkOptions[]) {
         if (!childrenOpts) {
             return;
         }
@@ -30,7 +30,7 @@ class Bookmark {
         this.children = children;
     }
 
-    initDom () {
+    initDom() {
         const itemDom = document.createElement('li');
         itemDom.setAttribute('data-match', String(false));
 
@@ -61,12 +61,13 @@ class Bookmark {
         this.itemDom = itemDom;
     }
 
-    match (keywordList: string[], parentMatch = false): boolean {
+    match(keywordList: string[], parentMatch = false): boolean {
         let selfMatch = !!keywordList.length;
         keywordList.forEach((keyword) => {
-            selfMatch = selfMatch && !!keyword && (
-                this.titleMatch(keyword) || this.urlMatch(keyword)
-            );
+            selfMatch =
+                selfMatch &&
+                !!keyword &&
+                (this.titleMatch(keyword) || this.urlMatch(keyword));
         });
 
         let childrenMatch = false;
@@ -74,7 +75,7 @@ class Bookmark {
             this.children.forEach((bookmark) => {
                 const childMatch = bookmark.match(
                     keywordList,
-                    parentMatch || selfMatch
+                    parentMatch || selfMatch,
                 );
                 childrenMatch = childrenMatch || childMatch;
             });
@@ -86,11 +87,11 @@ class Bookmark {
         return allMatch;
     }
 
-    titleMatch (keyword: string): boolean {
-        return !!this.title && (new RegExp(keyword, 'i').test(this.title));
+    titleMatch(keyword: string): boolean {
+        return !!this.title && new RegExp(keyword, 'i').test(this.title);
     }
 
-    urlMatch (keyword: string): boolean {
+    urlMatch(keyword: string): boolean {
         return !!this.url && this.url.indexOf(keyword) >= 0;
     }
 }
