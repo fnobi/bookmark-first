@@ -13,6 +13,7 @@ function init () {
     initIncrementEvent();
     initAnchorClickEvent();
     loadBookmark();
+    incrementDom.focus();
 }
 
 function initIncrementEvent () {
