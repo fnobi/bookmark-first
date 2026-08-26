@@ -21,7 +21,7 @@ resource "google_iam_oauth_client" "chrome_webstore" {
 
   oauth_client_id = "bookmark-first-webstore"
   location        = "global"
-  display_name    = "bookmark-first chrome webstore release"
+  display_name    = "bookmark-first webstore" # 32文字以内という制約があるため短縮
   description     = "Chrome Web Store Publish API用のOAuthクライアント"
 
   client_type = "CONFIDENTIAL_CLIENT"
@@ -47,5 +47,5 @@ resource "google_iam_oauth_client_credential" "chrome_webstore" {
   location    = google_iam_oauth_client.chrome_webstore.location
 
   oauth_client_credential_id = "default"
-  display_name               = "bookmark-first release credential"
+  display_name               = "release credential" # 32文字以内という制約があるため短縮
 }
