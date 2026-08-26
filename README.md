@@ -50,4 +50,4 @@ Chrome Web Store側のAPIを使うため、以下をリポジトリのSecretsに
 
 APIでの公開リクエスト自体は成功しても、実際の公開までにChromeストア側の審査が挟まる場合があります。
 
-`CHROME_CLIENT_ID` / `CHROME_CLIENT_SECRET` の元になるGoogle Cloud側(API有効化・OAuth同意画面・OAuthクライアント)のセットアップは [`terraform/`](./terraform) で管理しています。詳しい手順(refresh tokenの取得含む)は [`terraform/README.md`](./terraform/README.md) を参照してください。
+Google Cloud側の必要なAPI有効化は [`terraform/`](./terraform) で管理しています。OAuthクライアントの作成とrefresh tokenの取得は現状Terraformでは自動化できず手動作業が必要なため、詳しい手順は [`terraform/README.md`](./terraform/README.md) を参照してください。
