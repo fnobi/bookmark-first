@@ -40,6 +40,9 @@ li[data-match="false"] {
 }
 
 a {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     text-decoration: none;
     color: inherit;
     padding: 0.5em;
@@ -54,8 +57,16 @@ a:focus {
     border-color: #ccf;
 }
 
+a .favicon {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.5em;
+    flex-shrink: 0;
+}
+
 a footer {
     display: block;
+    width: 100%;
     font-size: 50%;
     overflow: hidden;
     white-space: nowrap;

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import { Bookmark } from './Bookmark';
 
 describe('Bookmark#match (leaf node)', () => {
@@ -57,6 +57,41 @@ describe('Bookmark#initDom', () => {
             '<img src=x onerror=alert(1)>',
         );
         expect(anchor?.querySelector('img')).toBeNull();
+    });
+});
+
+describe('Bookmark#initDom (favicon)', () => {
+    afterEach(() => {
+        Reflect.deleteProperty(globalThis, 'chrome');
+    });
+
+    it('does not add a favicon img when chrome APIs are unavailable', () => {
+        const bookmark = new Bookmark({
+            title: 'Example Site',
+            url: 'https://example.com',
+        });
+        expect(bookmark.itemDom.querySelector('img.favicon')).toBeNull();
+    });
+
+    it('adds a favicon img built from chrome.runtime.getURL when available', () => {
+        Object.assign(globalThis, {
+            chrome: {
+                runtime: {
+                    getURL: (path: string) =>
+                        `chrome-extension://abc123${path}`,
+                },
+            },
+        });
+
+        const bookmark = new Bookmark({
+            title: 'Example Site',
+            url: 'https://example.com/page',
+        });
+        const favicon =
+            bookmark.itemDom.querySelector<HTMLImageElement>('img.favicon');
+        expect(favicon?.src).toBe(
+            'chrome-extension://abc123/_favicon/?pageUrl=https%3A%2F%2Fexample.com%2Fpage&size=16',
+        );
     });
 });
 
