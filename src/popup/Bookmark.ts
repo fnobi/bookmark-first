@@ -4,6 +4,17 @@ interface BookmarkOptions {
     children?: BookmarkOptions[];
 }
 
+function getFaviconUrl(url: string): string | null {
+    if (typeof chrome === 'undefined' || !chrome.runtime?.getURL) {
+        return null;
+    }
+
+    const faviconUrl = new URL(chrome.runtime.getURL('/_favicon/'));
+    faviconUrl.searchParams.set('pageUrl', url);
+    faviconUrl.searchParams.set('size', '16');
+    return faviconUrl.toString();
+}
+
 export class Bookmark {
     title?: string;
     url?: string;
@@ -51,8 +62,21 @@ export class Bookmark {
             itemDom.appendChild(listDom);
         } else {
             const anchorDom = document.createElement('a');
-            anchorDom.textContent = this.title!;
             anchorDom.href = this.url!;
+
+            const faviconUrl = getFaviconUrl(this.url!);
+            if (faviconUrl) {
+                const faviconDom = document.createElement('img');
+                faviconDom.className = 'favicon';
+                faviconDom.src = faviconUrl;
+                faviconDom.alt = '';
+                anchorDom.appendChild(faviconDom);
+            }
+
+            const titleDom = document.createElement('span');
+            titleDom.textContent = this.title!;
+            anchorDom.appendChild(titleDom);
+
             const urlFooterDom = document.createElement('footer');
             urlFooterDom.textContent = this.url!;
             anchorDom.appendChild(urlFooterDom);
