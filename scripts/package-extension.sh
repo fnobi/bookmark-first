@@ -10,6 +10,7 @@ mkdir -p dist
 
 zip -r dist/extension.zip \
     manifest.json \
+    icons \
     popup/index.html \
     popup/css \
     popup/js
