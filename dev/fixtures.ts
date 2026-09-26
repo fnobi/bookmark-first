@@ -1,3 +1,5 @@
+/// <reference types="chrome" />
+
 let nextId = 1;
 
 function id(): string {

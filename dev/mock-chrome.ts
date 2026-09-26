@@ -1,3 +1,5 @@
+/// <reference types="chrome" />
+
 import { fixtures, type FixtureName } from './fixtures.js';
 
 function resolveFixtureName(): FixtureName {
