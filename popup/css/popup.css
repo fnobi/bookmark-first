@@ -35,7 +35,7 @@ input, strong, ul, li, a {
 }
 
 .list-root {
-    max-height: 300px;
+    height: 300px;
     overflow-y: hidden;
     position: relative;
     padding-top: 40px;
@@ -46,9 +46,12 @@ input, strong, ul, li, a {
 .list-root[data-empty="true"]::before {
     content: 'no matches...';
     opacity: 0.5;
-    display: block;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: var(--spacing);
+    padding: 0 var(--spacing);
 }
 
 .bookmark-item[data-match="false"] {
