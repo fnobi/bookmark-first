@@ -5,31 +5,46 @@ input, strong, ul, li, a {
 }
 
 .wrapper {
+    --spacing: 8px;
+    position: relative;
     width: 300px;
     color: #444;
+    background-color: #eeeeee;
     font-size: 14px;
     font-family: sans-serif;
 }
 
 .increment {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    padding: var(--spacing);
 }
 
 .increment__input {
     width: 100%;
-    font-size: 200%;
+    font-size: 20px;
     outline: none;
     border: none;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 8px #00000020;
+    background-color: #ffffff;
 }
 
-.bookmark-list {
-    border-top: solid 1px #ccc;
-    margin-top: 1em;
-    padding-top: 1em;
+.list-root {
     max-height: 300px;
     overflow-y: scroll;
+    padding-top: 40px;
 }
-.bookmark-list[data-empty="true"] {
-    display: none;
+.list-root[data-empty="true"]::before {
+    content: 'no matches...';
+    opacity: 0.5;
+    display: block;
+    text-align: center;
+    padding: var(--spacing);
 }
 
 .bookmark-item[data-match="false"] {
@@ -37,39 +52,36 @@ input, strong, ul, li, a {
 }
 
 .bookmark-item__title {
-    margin: 0.5em 0em;
-    font-size: 50%;
+    padding: var(--spacing);
+    padding-top: 16px;
+    font-size: 8px;
 }
 
 .bookmark-btn {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     text-decoration: none;
     color: inherit;
-    padding: 0.5em;
-    margin: 1px 0px;
-    background-color: #eee;
-    border-left: solid 0.5em #ccc;
+    padding: var(--spacing);
+    background-color: #ffffff;
     outline: none;
 }
 .bookmark-btn[data-active="true"],
 .bookmark-btn:focus {
-    background-color: #eef;
-    border-color: #ccf;
+    background-color: #ffffdd;
 }
 
 .bookmark-btn .favicon {
-    width: 16px;
-    height: 16px;
-    margin-right: 0.5em;
-    flex-shrink: 0;
+    position: relative;
+    top: 3px;
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    vertical-align: top;
 }
 
 .bookmark-btn footer {
     display: block;
     width: 100%;
-    font-size: 50%;
+    font-size: 8px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

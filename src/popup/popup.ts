@@ -53,10 +53,12 @@ function initIncrementEvent() {
                 break;
             }
             case 'ArrowUp':
+                e.preventDefault();
                 setActive(activeIndex - 1);
                 isCursorKey = true;
                 break;
             case 'ArrowDown':
+                e.preventDefault();
                 setActive(activeIndex + 1);
                 isCursorKey = true;
                 break;
