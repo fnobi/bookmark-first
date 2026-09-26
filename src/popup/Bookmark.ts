@@ -43,11 +43,13 @@ export class Bookmark {
 
     initDom() {
         const itemDom = document.createElement('li');
+        itemDom.setAttribute('class', 'bookmark-item');
         itemDom.setAttribute('data-match', String(false));
 
         if (this.children) {
             if (this.title) {
                 const titleDom = document.createElement('strong');
+                titleDom.setAttribute('class', 'bookmark-item__title');
                 titleDom.textContent = this.title;
                 itemDom.appendChild(titleDom);
             }
@@ -62,6 +64,7 @@ export class Bookmark {
             itemDom.appendChild(listDom);
         } else {
             const anchorDom = document.createElement('a');
+            anchorDom.setAttribute('class', 'bookmark-btn');
             anchorDom.href = this.url!;
 
             const faviconUrl = getFaviconUrl(this.url!);
