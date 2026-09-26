@@ -116,6 +116,22 @@ function setActive(index: number) {
     index = Math.min(index, matching.length - 1);
     matching[index].setAttribute('data-active', String(true));
     activeIndex = index;
+    centerActive(matching[index]);
+}
+
+function centerActive(anchor: HTMLAnchorElement) {
+    if (!rootBookmark) {
+        return;
+    }
+
+    const contentDom = rootBookmark.itemDom;
+    const containerHeight = bookmarkRootDom.clientHeight;
+    const offset = Math.max(
+        anchor.offsetTop + anchor.offsetHeight / 2 - containerHeight / 2,
+        0,
+    );
+
+    contentDom.style.transform = `translateY(${-offset}px)`;
 }
 
 function trim(string = ''): string {

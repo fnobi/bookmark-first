@@ -36,8 +36,12 @@ input, strong, ul, li, a {
 
 .list-root {
     max-height: 300px;
-    overflow-y: scroll;
+    overflow-y: hidden;
+    position: relative;
     padding-top: 40px;
+}
+.list-root > .bookmark-item {
+    transition: transform 0.2s ease;
 }
 .list-root[data-empty="true"]::before {
     content: 'no matches...';
