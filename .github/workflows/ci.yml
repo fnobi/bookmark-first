@@ -23,6 +23,8 @@ jobs:
 
       - run: pnpm run typecheck
 
+      - run: pnpm run typecheck:dev
+
       - run: pnpm run lint
 
       - run: pnpm run test
