@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>bookmark first (dev)</title>
+    <link href="/popup/css/popup.css" rel="stylesheet" />
+    <style>
+      body {
+        margin: 0;
+        padding: 24px;
+        background: #f4f4f4;
+        font-family: sans-serif;
+      }
+      .js-dev-fixtures {
+        display: block;
+        margin-bottom: 16px;
+        font-size: 12px;
+      }
+      .js-dev-fixtures a {
+        display: inline;
+        margin-right: 12px;
+        color: #06c;
+      }
+      .js-dev-fixtures a[data-current] {
+        font-weight: bold;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="js-dev-fixtures"></nav>
+    <div class="wrapper">
+      <div class="increment">
+        <input
+          class="js-increment increment__input"
+          type="text"
+          value=""
+          placeholder="Input any keywords"
+        />
+      </div>
+      <ul class="bookmark js-bookmark-root" data-empty="true"></ul>
+    </div>
+    <script type="module" src="/dev/mock-chrome.ts"></script>
+    <script type="module" src="/src/popup/popup.ts"></script>
+    <script type="module" src="/dev/fixture-nav.ts"></script>
+  </body>
+</html>

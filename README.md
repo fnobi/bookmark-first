@@ -12,11 +12,24 @@ Node.jsのバージョンは`.node-version`を参照してください。パッ�
 pnpm install
 pnpm run build      # popup/js/ にJSを出力
 pnpm run watch      # ファイル変更を監視してビルド
+pnpm run dev        # ポップアップの見た目をブラウザ上でホットリロード確認(下記参照)
 pnpm run typecheck
 pnpm run lint       # ESLint + Prettierのチェック
 pnpm run format     # Prettierで自動整形
 pnpm run test       # Vitestでユニットテストを実行
 ```
+
+## ポップアップの見た目を素早く確認する(`pnpm run dev`)
+
+`chrome.bookmarks` APIはブラウザ拡張機能としてしか実行できないため、`dev/`配下にViteのdevサーバー用エントリを用意し、`chrome.bookmarks.getTree` などをダミーデータでモックしています。
+
+```sh
+pnpm run dev
+```
+
+を実行すると、`dev/index.html` がブラウザで開き、`src/popup/`配下のTS/CSSを編集するとホットリロードされます。画面上部のリンクからブックマークのダミーデータ(空の状態・長いタイトル・大量アイテムなど)を切り替えられます(`?fixture=`クエリパラメータでも指定可能)。
+
+この仕組みは開発用で、`pnpm run package`(拡張機能のzip化)には含まれません。
 
 ## 拡張機能の読み込み方
 
