@@ -9,6 +9,9 @@ function queryRequired<T extends Element>(selector: string): T {
 }
 
 const incrementDom = queryRequired<HTMLInputElement>('.js-increment');
+const incrementFormDom = queryRequired<HTMLFormElement>(
+    '.js-increment-form',
+);
 const bookmarkRootDom = queryRequired<HTMLUListElement>('.js-bookmark-root');
 
 let rootBookmark: Bookmark | null = null;
@@ -43,15 +46,6 @@ function initIncrementEvent() {
 
     document.addEventListener('keydown', (e) => {
         switch (e.key) {
-            case 'Enter': {
-                const activeAnchor = document.querySelector<HTMLAnchorElement>(
-                    'a[data-active="true"]',
-                );
-                if (activeAnchor && activeAnchor.href) {
-                    window.open(activeAnchor.href);
-                }
-                break;
-            }
             case 'ArrowUp':
                 e.preventDefault();
                 setActive(activeIndex - 1);
@@ -62,6 +56,16 @@ function initIncrementEvent() {
                 setActive(activeIndex + 1);
                 isCursorKey = true;
                 break;
+        }
+    });
+
+    incrementFormDom.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const activeAnchor = document.querySelector<HTMLAnchorElement>(
+            'a[data-active="true"]',
+        );
+        if (activeAnchor && activeAnchor.href) {
+            window.open(activeAnchor.href);
         }
     });
 
